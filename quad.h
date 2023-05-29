@@ -3,14 +3,14 @@
 
 #include <iostream>
 #include <array>
-#include "C://Users/Josep/coord.h"
+#include "C://Users/Josep/Duck Jump 3/coord.h"
 
 using namespace std;
 
 class Quad{
 	public:
 	double x1, y1, x2, y2, x3, y3, x4, y4;
-	bool player;
+	int type; //-1 is player, 0 is ground
 	//should never make a default quad
 	Quad(){
 		x1 = 0;
@@ -23,7 +23,7 @@ class Quad{
 		y3 = 0;
 		y4 = 0;
 	}
-	 Quad(double xx1, double yy1, double xx2, double yy2, double xx3, double yy3, double xx4, double yy4){
+	Quad(double xx1, double yy1, double xx2, double yy2, double xx3, double yy3, double xx4, double yy4, int ttype){
 		x1 = xx1; //bottom left
 		y1 = yy1;
 		x2 = xx2; //top left
@@ -32,23 +32,9 @@ class Quad{
 		y3 = yy3;
 		x4 = xx4; //bottom right
 		y4 = yy4;
-		player = false;
-	}
-	 Quad(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, bool player){
-		x1 = this->x1; //bottom left
-		y1 = this->y1;
-		x2 = this->x2; //top left
-		y2 = this->y2;
-		x3 = this->x3; //top right
-		y3 = this->y3;
-		x4 = this->x4; //bottom right
-		y4 = this->y4;
-		player = true;
+		type = ttype;
 	}
 	Coord closestPoint(double playerx, double playery){
-		if(player){
-			return Coord(-1, -1);
-		}
 		//loop through the x and y values and find the potential collisions
 		//slightly unnecessary to make arrays, but it makes it look cleaner
 		double x [4] = {x1, x2, x3, x4};
@@ -77,7 +63,7 @@ class Quad{
 					if(playery - y[i] < 0.2 && playery - y[i] > 0){	
 						possible = 10 + i;
 					}
-					if(playery - y[i] > -0.1 && playery - y[i] < 0){
+					if(playery - y[i] > -0.11 && playery - y[i] < 0){
 						possible = 30 + i;
 					}	
 				}
